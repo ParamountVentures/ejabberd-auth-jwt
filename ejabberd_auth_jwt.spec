@@ -1,0 +1,5 @@
+author: "Steven Livingstone-Perez <steven at livz.org>"
+category: "auth"
+summary: "Authentication via a JWT Token"
+home: "https://github.com/ParamountVentures/ejabberd-auth-jwt"
+url: "git@github.com:ParamountVentures/ejabberd-auth-jwt.git"
