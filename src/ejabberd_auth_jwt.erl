@@ -53,6 +53,9 @@ check_password(LUser, LServer, Token) ->
     invalid ->
       error_logger:info_msg("Invalid Token for ~s", [LUser]),
       false;
+    expired ->
+      error_logger:info_msg("Token has expired for ~s", [LUser]),
+      false;
     {AssertedClaims} ->
       Uid = proplists:get_value(<<"user_id">>, AssertedClaims),
       Host = proplists:get_value(<<"host">>, AssertedClaims),
