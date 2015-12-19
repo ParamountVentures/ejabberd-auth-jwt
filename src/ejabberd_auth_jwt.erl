@@ -22,6 +22,7 @@
   store_type/0,
   plain_password_required/0,
   check_password/3,
+  is_user_exists/2,
   stop/1]).
 
 -include("ejabberd.hrl").
@@ -37,6 +38,10 @@ plain_password_required() -> true.
 
 % Needed so that the check_password/3 is called.
 store_type() -> external.
+
+is_user_exists(User, _Server) ->
+  error_logger:info_msg(User),
+  true.
 
 -spec check_password(ejabberd:luser(), ejabberd:lserver(), binary()) -> boolean().
 check_password(LUser, LServer, Token) ->
