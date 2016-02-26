@@ -16,13 +16,13 @@ This module will verify an incoming JWT token and confirm the username claim is 
 
 To reiteratio - it is very important all the beam files are copied accross in that last step:
 
-cp package/base64url.beam /lib/ejabberd-16.01/ebin/
-cp package/ej.beam /lib/ejabberd-16.01/ebin/
-cp package/ejabberd_auth_jwt.app /lib/ejabberd-16.01/ebin/
-cp package/ejabberd_auth_jwt.beam /lib/ejabberd-16.01/ebin/
-cp package/ejwt.beam /lib/ejabberd-16.01/ebin/
-cp package/jiffy.beam /lib/ejabberd-16.01/ebin/
-cp package/jiffy_utf8.beam /lib/ejabberd-16.01/ebin/
+- cp package/base64url.beam /lib/ejabberd-16.01/ebin/
+- cp package/ej.beam /lib/ejabberd-16.01/ebin/
+- cp package/ejabberd_auth_jwt.app /lib/ejabberd-16.01/ebin/
+- cp package/ejabberd_auth_jwt.beam /lib/ejabberd-16.01/ebin/
+- cp package/ejwt.beam /lib/ejabberd-16.01/ebin/
+- cp package/jiffy.beam /lib/ejabberd-16.01/ebin/
+- cp package/jiffy_utf8.beam /lib/ejabberd-16.01/ebin/
 
 
 ### How to enable
