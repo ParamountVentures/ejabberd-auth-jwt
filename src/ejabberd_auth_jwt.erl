@@ -21,8 +21,21 @@
 -export([start/1,
   store_type/0,
   plain_password_required/0,
-  check_password/3,
+  check_password/4,
+  check_password/6,
   is_user_exists/2,
+  opt_type/1,
+  dirty_get_registered_users/0,
+  get_password/2,
+  get_password_s/2,
+  get_vh_registered_users/1,
+  get_vh_registered_users/2,
+  get_vh_registered_users_number/1,
+  get_vh_registered_users_number/2,
+  remove_user/2,
+  remove_user/3,
+  set_password/3,
+  try_register/3,
   stop/1]).
 
 -include("ejabberd.hrl").
@@ -31,6 +44,7 @@
 %% Implementation
 -spec start(binary()) -> ok.
 start(_Host) ->
+  error_logger:info_msg("ejabberd_auth_jwt"),
   ok.
 
 % Needed so that the check_password/3 is called.
@@ -43,8 +57,8 @@ is_user_exists(User, _Server) ->
   error_logger:info_msg(User),
   true.
 
--spec check_password(ejabberd:luser(), ejabberd:lserver(), binary()) -> boolean().
-check_password(LUser, LServer, Token) ->
+-spec check_password(ejabberd:luser(), binary(), ejabberd:lserver(), binary()) -> boolean().
+check_password(LUser,  _AuthzId, LServer, Token) ->
   error_logger:info_msg(io_lib:format("Unwrapping token ~s for User ~s at ~s", [Token, LUser, LServer])),
 
   % shared key data
@@ -88,3 +102,63 @@ check_password(LUser, LServer, Token) ->
 
 stop(_Host) ->
   ok.
+
+%opt_type() -> fun (V) -> V end;
+opt_type(_) -> [].
+
+%not used
+-spec check_password(ejabberd:luser(), binary(), ejabberd:lserver(), binary(), binary(), fun()) -> boolean().
+check_password(_LUser, _AuthzId, _LServer, _Password, _Digest, _DigestGen) ->
+  erlang:error(not_implemented).
+
+-spec remove_user_req(binary(), binary(), binary(), binary()) ->
+  ok | not_exists | not_allowed | bad_request.
+remove_user_req(_LUser, _LServer, _Password, _Method) ->
+  erlang:error(not_implemented).
+
+-spec dirty_get_registered_users() -> [].
+dirty_get_registered_users() ->
+  [].
+
+-spec get_password(ejabberd:luser(), ejabberd:lserver()) -> false | binary() |
+{binary(), binary(), binary(), integer()}.
+get_password(_LUser, _LServer) ->
+  erlang:error(not_implemented).
+
+
+-spec get_password_s(ejabberd:luser(), ejabberd:lserver()) -> binary().
+get_password_s(_User, _Server) ->
+  erlang:error(not_implemented).
+
+-spec get_vh_registered_users(ejabberd:lserver()) -> [].
+get_vh_registered_users(_Server) ->
+  [].
+
+-spec get_vh_registered_users(ejabberd:lserver(), list()) -> [].
+get_vh_registered_users(_Server, _Opts) ->
+  [].
+
+-spec get_vh_registered_users_number(binary()) -> 0.
+get_vh_registered_users_number(_Server) ->
+  0.
+
+-spec get_vh_registered_users_number(ejabberd:lserver(), list()) -> 0.
+get_vh_registered_users_number(_Server, _Opts) ->
+  0.
+
+
+-spec remove_user(ejabberd:luser(), ejabberd:lserver()) -> ok | not_exists | not_allowed | bad_request.
+remove_user(LUser, LServer) ->
+  remove_user_req(LUser, LServer, <<"">>, <<"remove_user">>).
+
+-spec remove_user(ejabberd:luser(), ejabberd:lserver(), binary()) -> ok | not_exists | not_allowed | bad_request.
+remove_user(_LUser, _LServer, _Password) ->
+  erlang:error(not_implemented).
+
+-spec set_password(ejabberd:luser(), ejabberd:lserver(), binary()) -> ok | {error, term()}.
+set_password(_LUser, _LServer, _Password) ->
+  erlang:error(not_implemented).
+
+-spec try_register(ejabberd:luser(), ejabberd:lserver(), binary()) -> {atomic, ok | exists} | {error, term()}.
+try_register(_LUser, _LServer, _Password) ->
+  erlang:error(not_implemented).

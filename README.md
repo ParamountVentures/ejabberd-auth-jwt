@@ -1,28 +1,25 @@
 # JWT authentication module
 An eJabberd Authentication plugin for JWT verification written in Erlang.
 
+# Note
+As of ejabberd 16.03 authentication modules must be compiled with the ejabberd source rather than included as beam files.
+
 ## Overview
 
 This module will verify an incoming JWT token and confirm the username claim is present in the request.
 
 ## Setup
-- Install [eJabberd](https://github.com/processone/ejabberd)
-- git clone [this repo](https://github.com/ParamountVentures/ejabberd-auth-jwt) 
-- Add a symmetric key (any random string) to src/ejabberd_auth_jwt.app
-- Compile the main Erlang file (include the path to the eJabberd includes) **erlc -I /some/path/ejabberd/include ejabberd_auth_jwt.erl**
-- Copy the output .beam file to the /some/path/ejabberd/ebin folder
-- Copy the output .app file to the /some/path/ejabberd/ebin folder
-- Copy all of the .beam files from the deps subfolders to the /some/path/ejabberd/ebin folder
-
-To reiteratio - it is very important all the beam files are copied accross in that last step:
-
-- cp package/base64url.beam /lib/ejabberd-16.01/ebin/
-- cp package/ej.beam /lib/ejabberd-16.01/ebin/
-- cp package/ejabberd_auth_jwt.app /lib/ejabberd-16.01/ebin/
-- cp package/ejabberd_auth_jwt.beam /lib/ejabberd-16.01/ebin/
-- cp package/ejwt.beam /lib/ejabberd-16.01/ebin/
-- cp package/jiffy.beam /lib/ejabberd-16.01/ebin/
-- cp package/jiffy_utf8.beam /lib/ejabberd-16.01/ebin/
+- Add the ejabberd_auth_jwt.erl file to the src folder of the ejabberd repository
+- Compile eJabberd
+- cp ejabberd_auth_jwt.app /lib/ejabberd-16.09/ebin/
+- Compile each of the deps libraries.
+- cp package/base64url.beam /lib/ejabberd-16.09/ebin/
+- cp package/ej.beam /lib/ejabberd-16.09/ebin/
+- cp package/ejabberd_auth_jwt.app /lib/ejabberd-16.09/ebin/
+- cp package/ejabberd_auth_jwt.beam /lib/ejabberd-16.09/ebin/
+- cp package/ejwt.beam /lib/ejabberd-16.09/ebin/
+- cp package/jiffy.beam /lib/ejabberd-16.09/ebin/
+- cp package/jiffy_utf8.beam /lib/ejabberd-16.09/ebin/
 
 
 ### How to enable
@@ -47,6 +44,3 @@ auth_method: jwt
 - Copy the signed JWT on that web page.
 - Open Adium and create an account on your XMPP server, with the username equal to the "user_id" claim above and the password the JWT you generated in the previous step. 
 - Log in successfully :-)
-
-
-Please let me know of any issues - this is my first Erlang project so be gentle :-)
