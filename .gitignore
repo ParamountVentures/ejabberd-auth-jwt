@@ -1,6 +1,5 @@
 ### Erlang template
 .eunit
-deps
 *.o
 *.beam
 *.plt
