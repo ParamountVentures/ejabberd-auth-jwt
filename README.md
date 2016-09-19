@@ -22,6 +22,13 @@ This module will verify an incoming JWT token and confirm the username claim is 
 - cp package/jiffy_utf8.beam /lib/ejabberd-16.09/ebin/
 
 
+The dependencies can be found at :
+
+- https://github.com/dvv/base64url
+- https://github.com/seth/ej
+- https://github.com/kato-im/ejwt
+- https://github.com/davisp/jiffy
+
 ### How to enable
 
 Replace default `auth_method` option in
