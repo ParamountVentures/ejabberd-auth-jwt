@@ -44,7 +44,7 @@
 %% Implementation
 -spec start(binary()) -> ok.
 start(_Host) ->
-  error_logger:info_msg("ejabberd_auth_jwt"),
+  error_logger:info_msg("Started ejabberd_auth_jwt"),
   ok.
 
 % Needed so that the check_password/3 is called.
