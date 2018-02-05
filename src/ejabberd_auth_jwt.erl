@@ -19,23 +19,18 @@
 
 %% API
 -export([start/1,
-  store_type/0,
-  plain_password_required/0,
+  store_type/1,
+  plain_password_required/1,
   check_password/4,
   check_password/6,
-  is_user_exists/2,
   opt_type/1,
-  dirty_get_registered_users/0,
   get_password/2,
   get_password_s/2,
-  get_vh_registered_users/1,
-  get_vh_registered_users/2,
-  get_vh_registered_users_number/1,
-  get_vh_registered_users_number/2,
   remove_user/2,
   remove_user/3,
   set_password/3,
   try_register/3,
+  user_exist/2,
   stop/1]).
 
 -include("ejabberd.hrl").
@@ -44,18 +39,18 @@
 %% Implementation
 -spec start(binary()) -> ok.
 start(_Host) ->
-  error_logger:info_msg("Started ejabberd_auth_jwt"),
+  error_logger:info_msg("Started ejabberd_auth_jwt!"),
   ok.
 
 % Needed so that the check_password/3 is called.
-plain_password_required() -> true.
+-spec plain_password_required(binary()) -> true.
+plain_password_required(Server) ->
+  store_type(Server) == scram.
 
 % Needed so that the check_password/3 is called.
-store_type() -> external.
-
-is_user_exists(User, _Server) ->
-  error_logger:info_msg(User),
-  true.
+-spec store_type(binary()) -> external.
+store_type(_) ->
+  external.
 
 -spec check_password(ejabberd:luser(), binary(), ejabberd:lserver(), binary()) -> boolean().
 check_password(LUser,  _AuthzId, LServer, Token) ->
@@ -116,35 +111,22 @@ check_password(_LUser, _AuthzId, _LServer, _Password, _Digest, _DigestGen) ->
 remove_user_req(_LUser, _LServer, _Password, _Method) ->
   erlang:error(not_implemented).
 
--spec dirty_get_registered_users() -> [].
-dirty_get_registered_users() ->
-  [].
-
 -spec get_password(ejabberd:luser(), ejabberd:lserver()) -> false | binary() |
 {binary(), binary(), binary(), integer()}.
 get_password(_LUser, _LServer) ->
-  erlang:error(not_implemented).
+  error.
+  %erlang:error(not_implemented).
 
+% in using jwt we will assume a valid user exists - could extend this by checking the backing database
+-spec user_exists(binary(), binary()) -> boolean().
+user_exists(_User, <<"">>) ->
+  false;
+user_exists(User, Server) ->
+  true
 
 -spec get_password_s(ejabberd:luser(), ejabberd:lserver()) -> binary().
 get_password_s(_User, _Server) ->
   erlang:error(not_implemented).
-
--spec get_vh_registered_users(ejabberd:lserver()) -> [].
-get_vh_registered_users(_Server) ->
-  [].
-
--spec get_vh_registered_users(ejabberd:lserver(), list()) -> [].
-get_vh_registered_users(_Server, _Opts) ->
-  [].
-
--spec get_vh_registered_users_number(binary()) -> 0.
-get_vh_registered_users_number(_Server) ->
-  0.
-
--spec get_vh_registered_users_number(ejabberd:lserver(), list()) -> 0.
-get_vh_registered_users_number(_Server, _Opts) ->
-  0.
 
 
 -spec remove_user(ejabberd:luser(), ejabberd:lserver()) -> ok | not_exists | not_allowed | bad_request.
